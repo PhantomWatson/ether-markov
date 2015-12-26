@@ -1,0 +1,19 @@
+{
+	"name": "phantomwatson/ether-markov",
+	"description": "Ether Markov Chain Text Generator",
+	"keywords": ["php", "markov"],
+	"homepage": "https://github.com/PhantomWatson/ether-markov",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Graham Watson",
+			"homepage": "http://phantomwatson.com",
+			"role": "Author"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"EtherMarkov\\": "src"
+		}
+	}
+}
