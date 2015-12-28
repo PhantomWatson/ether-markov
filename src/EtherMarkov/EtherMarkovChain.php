@@ -68,4 +68,23 @@ class EtherMarkovChain
         $search = preg_grep($pattern, $this->words);
         return $search[array_rand($search)];
     }
+    
+    /**
+     * @param string $beginning
+     * @param int $chainLength
+     * @return string
+     */
+    public function makeChain($beginning, $chainLength = 2)
+    {
+        $prevBlock = $beginning;
+        $retval = $beginning;
+    
+        for ($i = 1; $i <= $chainLength; $i++) {
+            $complement = $this->findMatch($prevBlock) ?: $this->getRandomBlock();
+            $retval .= ' '.$complement;
+            $prevBlock = $complement;
+        }
+    
+        return $retval;
+    }
 }
