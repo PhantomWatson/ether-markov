@@ -193,4 +193,11 @@ class EtherMarkovChain
     
         return $sentenceBeginnings;
     }
+    
+    public static function getRandomSentenceBeginning($text, $chainLength)
+    {
+        $beginnings = EtherMarkovChain::getSentenceBeginnings($text, $chainLength);
+        $key = array_rand($beginnings);
+        return $beginnings[$key];
+    }
 }
