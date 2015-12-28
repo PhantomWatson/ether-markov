@@ -103,4 +103,27 @@ class EtherMarkovChain
     
         return null;
     }
+    
+    /**
+     * @param string $text
+     * @param int $chainLength
+     * @return array
+     */
+    public function splitText($text, $chainLength)
+    {
+        $words = preg_split("/\s+/", $text);
+    
+        if ($chainLength == 1) {
+            return $words;
+        }
+    
+        $chunks = array_chunk($words, $chainLength);
+        $split = [];
+    
+        foreach ($chunks as $chunk) {
+            $split[] = implode(' ', $chunk);
+        }
+    
+        return $split;
+    }
 }
