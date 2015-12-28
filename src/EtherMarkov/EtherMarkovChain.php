@@ -44,4 +44,14 @@ class EtherMarkovChain
     
         return $this->makeChain($startingPoint, $chainLength);
     }
+    
+    /**
+     * Retrieves a random chunk of $chainLength words
+     * @return string
+     */
+    public function getRandomBlock()
+    {
+        $index = array_rand($this->words);
+        return $this->words[$index];
+    }
 }
