@@ -200,4 +200,17 @@ class EtherMarkovChain
         $key = array_rand($beginnings);
         return $beginnings[$key];
     }
+    
+    public static function trimToNaturalEnding($text)
+    {
+        $endings = ['.', '?', '!'];
+        $endPos = 0;
+        foreach ($endings as $ending) {
+            $pos = strrpos($text, $ending);
+            if ($pos > $endPos) {
+                $endPos = $pos;
+            }
+        }
+        return substr($text, 0, $endPos + 1);
+    }
 }
