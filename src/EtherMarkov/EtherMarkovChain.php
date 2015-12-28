@@ -142,4 +142,55 @@ class EtherMarkovChain
         }
         return strpos($haystack, $needle, EtherMarkovChain::strposX($haystack, $needle, $offset, $number - 1) + strlen($needle));
     }
+    
+    /**
+     * Get the beginnings of each sentence, each $chainLength words long.
+     * Will stop looking for new sentence beginnings after finding $limit,
+     * which can be set to FALSE to find all sentence beginnings.
+     * @param string $text
+     * @param int $chainLength
+     * @param int|boolean $limit
+     * @return array
+     */
+    public static function getSentenceBeginnings($text, $chainLength, $limit = 100)
+    {
+        $matches = [];
+        preg_match('/(?:^|(?:[.!?]\s))(\w+)/', $text, $matches);
+    
+        // Get the first sentence beginning
+        $pos = EtherMarkovChain::strposX($text, ' ', 0, $chainLength);
+        $beginning = substr($text, 0, $pos);
+        $sentenceBeginnings = [
+                strip_tags($beginning)
+        ];
+    
+        // Get subsequent sentence beginnings
+        $sentenceEndings = ['.', '!', '?'];
+        $count = 0;
+        foreach ($sentenceEndings as $ending) {
+            $ending .= ' ';
+            $offset = 0;
+            while ($endingPos = strpos($text, $ending, $offset)) {
+                $endingPos += strlen($ending);
+                $endOfBeginningPos = EtherMarkovChain::strposX($text, ' ', $endingPos, $chainLength);
+                $length = $endOfBeginningPos - $endingPos;
+                $beginning = substr($text, $endingPos, $length);
+    
+                // Reject anything that doesn't contain words
+                if (! preg_match('/[A-Za-z]/', $beginning)) {
+                    $offset = $endOfBeginningPos;
+                    continue;
+                }
+    
+                $sentenceBeginnings[] = strip_tags($beginning);
+                $count++;
+                if ($limit && $count == $limit) {
+                    return $sentenceBeginnings;
+                }
+                $offset = $endOfBeginningPos;
+            }
+        }
+    
+        return $sentenceBeginnings;
+    }
 }
