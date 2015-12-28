@@ -54,4 +54,18 @@ class EtherMarkovChain
         $index = array_rand($this->words);
         return $this->words[$index];
     }
+    
+    /**
+     * Gets chunk of $chainLength words matching $string
+     * @param $string
+     */
+    public function getMatchingBlock($string)
+    {
+        $pattern = '/\b'.preg_quote($string, '/').'\b/';
+        if ($this->caseInsensitive) {
+            $pattern .= 'i';
+        }
+        $search = preg_grep($pattern, $this->words);
+        return $search[array_rand($search)];
+    }
 }
