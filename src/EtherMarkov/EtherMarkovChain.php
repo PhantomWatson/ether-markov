@@ -87,4 +87,20 @@ class EtherMarkovChain
     
         return $retval;
     }
+    
+    /**
+     * @param $string
+     * @return string|null
+     */
+    public function findMatch($string)
+    {
+        $string = strtolower($string);
+        $search = $this->caseInsensitive ? array_keys($this->lcWords, $string) : array_keys($this->words, $string);
+        if (count($search)) {
+            $index = $search[array_rand($search)] + 1;
+            return $this->words[$index];
+        }
+    
+        return null;
+    }
 }
