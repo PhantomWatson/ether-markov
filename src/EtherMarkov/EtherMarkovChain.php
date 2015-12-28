@@ -22,4 +22,26 @@ class EtherMarkovChain
             $this->lcWords = $this->splitText(strtolower($this->sample), $chainLength);
         }
     }
+    
+    /**
+     * $beginning can be a string that the chain must begin with,
+     * TRUE to start the chain with a sentence-beginner from the
+     * sample text, or FALSE for random.
+     *
+     * @param int $chainLength
+     * @param string|boolean $beginning
+     * @return string
+     */
+    public function generate($chainLength = 2, $beginning = true)
+    {
+        $startingPoint = null;
+    
+        if (is_string($beginning)) {
+            $startingPoint = $this->getMatchingBlock($beginning);
+        } else {
+            $startingPoint = $beginning ? $this->getRandomSentenceBeginning($this->sample, $chainLength) : $this->getRandomBlock();
+        }
+    
+        return $this->makeChain($startingPoint, $chainLength);
+    }
 }
