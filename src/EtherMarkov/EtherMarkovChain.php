@@ -126,4 +126,20 @@ class EtherMarkovChain
     
         return $split;
     }
+    
+    /**
+     * Find the position of the Xth occurrence of a substring in a string
+     * @param string $haystack
+     * @param string $needle
+     * @param int $offset
+     * @param int $number
+     * @return int
+     */
+    public static function strposX($haystack, $needle, $offset, $number)
+    {
+        if ($number == 1){
+            return strpos($haystack, $needle, $offset);
+        }
+        return strpos($haystack, $needle, EtherMarkovChain::strposX($haystack, $needle, $offset, $number - 1) + strlen($needle));
+    }
 }
